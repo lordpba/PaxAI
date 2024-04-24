@@ -13,7 +13,7 @@ ollama = Ollama(model="phi3")
 model = gpt35_turbo
 search_tool = SerperDevTool()
 #question = input("What is your question? ")
-question  = "How to solve the Ukranina war?"
+question  = "How to solve the Ukranian war?"
 
 # Define the agents with their specific roles and goals
 
@@ -49,7 +49,7 @@ caspar = Agent(
 
 reporter = Agent(
     role='Reporter',
-    goal='gather the information from the previuso analysis and make an action plan',
+    goal='gather the information from the previous analysis and make an action plan',
     backstory='Reporter is able to gather all the information and make a plan of action',
     memory=True,
     verbose=True,
