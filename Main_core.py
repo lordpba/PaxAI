@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 gpt35_turbo = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.5)
-ollama = Ollama(model="phi3")
+llm = Ollama(model="phi3")
 
 model = gpt35_turbo
 search_tool = SerperDevTool()
@@ -34,7 +34,8 @@ balthasar = Agent(
     memory=True,
     verbose=True,
     allow_delegation=True,
-    llm = model
+    llm = model,
+    output_file='Strategist.txt'
 )
 
 caspar = Agent(
