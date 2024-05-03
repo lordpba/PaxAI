@@ -100,7 +100,7 @@ result = magi_system.kickoff()
 print("######################")
 print(result)
 # genrate a text file with the question and the result
-with open(f"Magi_response_{question}.txt", "w") as f:
+with open(f"Magi_response.txt", "w") as f:
     f.write(f"Question: {question}\n")
     f.write(f"Answer: {result}")
 
