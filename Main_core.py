@@ -7,6 +7,7 @@ from crewai_tools import SerperDevTool, ScrapeElementFromWebsiteTool, ScrapeWebs
 from dotenv import load_dotenv
 load_dotenv()
 
+
 gpt35_turbo = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.5)
 llm = Ollama(model="phi3")
 
@@ -20,8 +21,8 @@ question  = "How to solve the Ukranian war?"
 melchior = Agent(
     role='Scientist',
     goal='Conduct technical analysis and provide logical conclusions.',
-    backstory='Melchior is a renowned scientist with expertise in data analysis and interpretation.',
-    memory=True,
+    backstory='Melchior is a renowned scientist with expertise in data analysis and interpretation in war zones.',
+    #memory=True,
     verbose=True,
     allow_delegation=True,
     llm = model
@@ -30,8 +31,8 @@ melchior = Agent(
 balthasar = Agent(
     role='Strategist',
     goal='Develop defense strategies and oversee tactical operations.',
-    backstory='Balthasar is a seasoned strategist with a deep understanding of military tactics and security.',
-    memory=True,
+    backstory='Balthasar is a seasoned strategist with a deep understanding of military tactics and security in conflict zone.',
+    #memory=True,
     verbose=True,
     allow_delegation=True,
     llm = model,
@@ -41,8 +42,8 @@ balthasar = Agent(
 caspar = Agent(
     role='Diplomat',
     goal='Evaluate ethical implications and make balanced decisions.',
-    backstory='Caspar is a skilled diplomat with a keen sense of ethics and morality.',
-    memory=True,
+    backstory='Caspar is a skilled diplomat with a keen sense of ethics and morality, he knows very well the history of the parts involved',
+    #memory=True,
     verbose=True,
     allow_delegation=True,
     llm = model
@@ -51,8 +52,8 @@ caspar = Agent(
 reporter = Agent(
     role='Reporter',
     goal='gather the information from the previous analysis and make an action plan',
-    backstory='Reporter is able to gather all the information and make a plan of action',
-    memory=True,
+    backstory='Reporter is able to gather all the information from previuos agents and propose an internationl threat that can be accepted by all the parts in conflict',
+    #memory=True,
     verbose=True,
     allow_delegation=True,
     llm = model
@@ -90,7 +91,7 @@ action_plan_task = Task(
 magi_system = Crew(
     agents=[melchior, balthasar, caspar],
     tasks=[scientific_analysis_task, strategy_task, diplomacy_task, action_plan_task],
-    memory=True,
+    #memory=True,
     cache=True,
     verbose=1
     #process=Process.sequential  # assuming a consensus process is needed for decision
@@ -100,7 +101,7 @@ result = magi_system.kickoff()
 print("######################")
 print(result)
 # genrate a text file with the question and the result
-with open(f"Magi_response.txt", "w") as f:
+with open(f"PaxAI_response.txt", "w") as f:
     f.write(f"Question: {question}\n")
     f.write(f"Answer: {result}")
 
