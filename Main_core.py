@@ -3,21 +3,20 @@ from langchain_openai import ChatOpenAI
 from langchain_community.tools import DuckDuckGoSearchRun, DuckDuckGoSearchResults
 from langchain_community.llms import OpenAI, Ollama
 from crewai_tools import SerperDevTool, ScrapeElementFromWebsiteTool, ScrapeWebsiteTool
+from langchain_groq import ChatGroq
 
 from dotenv import load_dotenv
 load_dotenv()
 
-
+groq = ChatGroq(temperature=0.0, model_name="llama3-8b-8192") # mixtral-8x7b-32768 - llama3-70b-8192 - gemma-7b-it - llama3-8b-8192
 gpt35_turbo = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.5)
-llm = Ollama(model="phi3")
+llm = groq
 
-model = gpt35_turbo
 search_tool = SerperDevTool()
 #question = input("What is your question? ")
 question  = "How to solve the Ukranian war?"
 
 # Define the agents with their specific roles and goals
-
 melchior = Agent(
     role='Scientist',
     goal='Conduct technical analysis and provide logical conclusions.',
@@ -25,7 +24,7 @@ melchior = Agent(
     #memory=True,
     verbose=True,
     allow_delegation=True,
-    llm = model
+    llm = llm
 )
 
 balthasar = Agent(
@@ -35,7 +34,7 @@ balthasar = Agent(
     #memory=True,
     verbose=True,
     allow_delegation=True,
-    llm = model,
+    llm = llm,
     output_file='Strategist.txt'
 )
 
@@ -46,7 +45,7 @@ caspar = Agent(
     #memory=True,
     verbose=True,
     allow_delegation=True,
-    llm = model
+    llm = llm
 )
 
 reporter = Agent(
@@ -56,7 +55,7 @@ reporter = Agent(
     #memory=True,
     verbose=True,
     allow_delegation=True,
-    llm = model
+    llm = llm
 )
 
 # Define tasks that might be typical for each role
@@ -67,7 +66,6 @@ scientific_analysis_task = Task(
     expected_output='Detailed report with conclusions based on the data analysis.',
     agent = melchior,
     tools = [search_tool]
-
 )
 
 strategy_task = Task(
@@ -89,7 +87,7 @@ action_plan_task = Task(
 )
 # Form the crew
 magi_system = Crew(
-    agents=[melchior, balthasar, caspar],
+    agents=[melchior, balthasar, caspar, reporter],
     tasks=[scientific_analysis_task, strategy_task, diplomacy_task, action_plan_task],
     #memory=True,
     cache=True,

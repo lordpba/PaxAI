@@ -2,3 +2,4 @@ crewai
 langchain
 langchain_community
 crewai_tools
+langchain_groq
