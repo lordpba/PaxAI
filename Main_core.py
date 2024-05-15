@@ -8,7 +8,7 @@ from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 load_dotenv()
 
-groq = ChatGroq(temperature=0.0, model_name="llama3-8b-8192") # mixtral-8x7b-32768 - llama3-70b-8192 - gemma-7b-it - llama3-8b-8192
+groq = ChatGroq(temperature=0.3, model_name="llama3-8b-8192") # mixtral-8x7b-32768 - llama3-70b-8192 - gemma-7b-it - llama3-8b-8192
 gpt35_turbo = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.3)
 llm = groq
 
@@ -56,7 +56,7 @@ Diplomat = Agent(
 
 Reporter = Agent(
     role='Reporter',
-    goal='gather the information from the previous analysis and make an action plan',
+    goal='gather the information from the previous analysis and make an action plan in Italian language',
     backstory='Reporter is able to gather all the information from previuos agents and propose an internationl threat that can be accepted by all the parts in conflict',
     #memory=True,
     verbose=True,
@@ -88,8 +88,8 @@ diplomacy_task = Task(
 )
 
 action_plan_task = Task(
-    description='Gather the information from the previous analysis and make an action plan',
-    expected_output='A detailed action plan based on the analysis and conclusions.',
+    description='Gather the information from the previous analysis and make an action plan in Italian',
+    expected_output='A detailed action plan based on the analysis and conclusions all written in Italian.',
     agent = Reporter
 )
 # Form the crew
