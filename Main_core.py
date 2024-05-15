@@ -10,7 +10,7 @@ load_dotenv()
 
 groq = ChatGroq(temperature=0.3, model_name="llama3-8b-8192") # mixtral-8x7b-32768 - llama3-70b-8192 - gemma-7b-it - llama3-8b-8192
 gpt35_turbo = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.3)
-llm = groq
+llm = gpt35_turbo
 
 search_tool = SerperDevTool()
 #question = input("What is your question? ")
@@ -20,11 +20,10 @@ question  = "How to solve the Israel - Palestin war?"
 Scientist = Agent(
     role='Scientist',
     goal='Conduct technical analysis and provide logical conclusions.',
-    backstory='Melchior is a renowned scientist with expertise in data analysis and interpretation in war zones\
+    backstory='Scientist is a renowned scientist with expertise in data analysis and interpretation in war zones\
         he analyzes the history of the conflicts and both parties involved.',
-    memory=True,
     verbose=True,
-    allow_delegation=True,
+    allow_delegation=False,
     llm = llm,
     tools = [search_tool]
 )
@@ -32,22 +31,19 @@ Scientist = Agent(
 Strategist = Agent(
     role='Strategist',
     goal='Develop defense strategies and oversee tactical operations.',
-    backstory='Balthasar is a seasoned strategist with a deep understanding of military tactics and security in conflict zone\
+    backstory='Strategist is a seasoned strategist with a deep understanding of military tactics and security in conflict zone\
         he analyzes the situation and finds a peacful solution.',
-    #memory=True,
     verbose=True,
     allow_delegation=False,
     llm = llm,
     tools = [search_tool],
-    output_file='Strategist.txt'
 )
 
 Diplomat = Agent(
     role='Diplomat',
     goal='Evaluate ethical implications and make balanced decisions.',
-    backstory='Caspar is a skilled diplomat with a keen sense of ethics and morality, he knows very well the history of the parts involved\
+    backstory='Diplomat is a skilled diplomat with a keen sense of ethics and morality, he knows very well the history of the parts involved\
         he seeks always a peaceful solution.',
-    #memory=True,
     verbose=True,
     allow_delegation=False,
     tools = [search_tool],
@@ -58,7 +54,6 @@ Reporter = Agent(
     role='Reporter',
     goal='gather the information from the previous analysis and make an action plan in Italian language',
     backstory='Reporter is able to gather all the information from previuos agents and propose an internationl threat that can be accepted by all the parts in conflict',
-    #memory=True,
     verbose=True,
     allow_delegation=False,
     llm = llm
@@ -96,7 +91,7 @@ action_plan_task = Task(
 paxai_system = Crew(
     agents=[Scientist, Strategist, Diplomat, Reporter],
     tasks=[scientific_analysis_task, strategy_task, diplomacy_task, action_plan_task],
-    #memory=True,
+    memory=True,
     cache=True,
     verbose=1,
     process=Process.sequential  # assuming a consensus process is needed for decision
