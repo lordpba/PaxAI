@@ -27,7 +27,6 @@ Scientist = Agent(
             'he is always impartial and seeks the truth'
             'he usually proceed with the thesis-antithesis-synthesis method',
     verbose=True,
-    allow_delegation=False,
     llm = llm
 )
 
@@ -39,7 +38,6 @@ Strategist = Agent(
             'he is always impartial and seeks the truth'
             'he is always very updated on the latest military technologies and strategies',
     verbose=True,
-    allow_delegation=False,
     llm = llm,
 )
 
@@ -53,7 +51,6 @@ Diplomat = Agent(
             'he usually proceed with the thesis-antithesis-synthesis method'
             'he is always impartial and seeks the truth',
     verbose=True,
-    allow_delegation=False,
     llm = llm
 )
 
@@ -67,7 +64,6 @@ Reporter = Agent(
             'he is always impartial and seeks the truth'
             'thanks to his skills he is able to write in a very clear and understandable way',
     verbose=True,
-    allow_delegation=False,
     llm = llm
 )
 
@@ -120,7 +116,6 @@ diplomacy_task = Task(
                     'thanks to his skills he is able to write in a very clear and understandable way',
     agent = Diplomat,
     tools = [search_tool],
-    allow_delegation=True,
     human_input=True
 )
 
@@ -132,7 +127,8 @@ paxai_system = Crew(
     memory=True,
     cache=True,
     verbose=2,
-    process=Process.sequential  # assuming a consensus process is needed for decision
+    process=Process.hierarchical,
+    manager_llm = llm
 )
 
 #question = input("What is your question? ")
