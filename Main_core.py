@@ -1,3 +1,7 @@
+# Warning control
+import warnings
+warnings.filterwarnings('ignore')
+
 from crewai import Agent, Task, Crew, Process
 from langchain_openai import ChatOpenAI
 from langchain_community.tools import DuckDuckGoSearchRun, DuckDuckGoSearchResults
@@ -82,7 +86,9 @@ scientific_analysis_task = Task(
                     'a report also on social and economic aspects of the parts involved'
                     'it finds also the requests of both parts involved and try to hilight the common points',
     agent = Scientist,
-    tools = [search_tool]
+    tools = [search_tool],
+    async_execution = True,
+    output_file = "scientific_analysis.txt"
 )
 
 strategy_task = Task(
@@ -92,9 +98,12 @@ strategy_task = Task(
                 'respects international laws and is balanced for all the parts involved',
     expected_output='A comprehensive real applicable and acceptable military and logistic plan for a peaceful solution.'
                     'a plan of how to deal with armed forces and logistics'
-                    'a common accepted guideline on how to manage the military forces in the zone of conflict',
+                    'a common accepted guideline on how to manage the military forces in the zone of conflict'
+                    'expected output as a text file',
     agent = Strategist,
-    tools = [search_tool]
+    tools = [search_tool],
+    async_execution = True,
+    output_file = "strategy.txt"
 )
 
 diplomacy_task = Task(
@@ -111,6 +120,7 @@ diplomacy_task = Task(
                     'thanks to his skills he is able to write in a very clear and understandable way',
     agent = Diplomat,
     tools = [search_tool],
+    allow_delegation=True,
     human_input=True
 )
 
